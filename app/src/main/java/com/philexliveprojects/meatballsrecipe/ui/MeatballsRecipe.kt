@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,15 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.philexliveprojects.meatballsrecipe.R
-import com.philexliveprojects.meatballsrecipe.ui.theme.Green100
-import com.philexliveprojects.meatballsrecipe.ui.theme.GreenA700
+
+val Margin = 12.dp
 
 @Composable
 fun MeatballsRecipe() {
@@ -36,7 +36,7 @@ fun MeatballsRecipe() {
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 12.dp, end = 12.dp, bottom = 32.dp)
+            .padding(horizontal = Margin)
     ) {
         Image(
             painterResource(R.drawable.meatballs),
@@ -52,18 +52,51 @@ fun MeatballsRecipe() {
             Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleLarge
         )
-        val uriHandler = LocalUriHandler.current
         Spacer(Modifier.height(24.dp))
-        Text(Data.text, Modifier.fillMaxWidth())
-        ClickableText(
-            Data.linkText,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = {
-                Data.linkText.getStringAnnotations("URL", it, it).firstOrNull()
-                    ?.let { stringAnnotation -> uriHandler.openUri(stringAnnotation.item) }
-            }
+        var number = 1
+        stringArrayResource(R.array.stages).forEach {
+            RecipeStageText(number = number, text = it)
+            Spacer(Modifier.height(6.dp))
+            number++
+        }
+        Link(
+            Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(start = 12.dp, top = 6.dp, end = 12.dp, bottom = 24.dp)
         )
     }
+}
+
+@Composable
+fun RecipeStageText(number: Int, text: String) {
+    Card {
+        Column(Modifier.fillMaxWidth()) {
+            Text(
+                text = number.toString(),
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .align(Alignment.CenterHorizontally),
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = text,
+                modifier = Modifier.padding(start = Margin, end = Margin, bottom = 24.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun Link(modifier: Modifier) {
+    val uriHandler = LocalUriHandler.current
+    ClickableText(
+        text = buildAnnotatedString { append(stringResource(R.string.source)) },
+        onClick = { uriHandler.openUri("https://savvybites.co.uk/meatballs-in-tomato-sauce") },
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineSmall.copy(
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    )
 }
 
 @Preview(showSystemUi = true)
@@ -77,38 +110,4 @@ fun MeatballsRecipePreview() {
             MeatballsRecipe()
         }
     }
-}
-
-object Data {
-    val text: AnnotatedString
-        get() = buildAnnotatedString {
-            append(
-                "• Make the meatball mix, by placing the mince and add in the herbs, the egg and a splash of milk. Using your hands or a wooden spoon, gently mix and form into meatballs. The key to keeping the mince from going tough is being gentle when you roll the meatballs.\n\n" +
-                        "• Using milk is the secret to getting juicy, moist meatballs every single time making them light and spongy.\n\n" +
-                        "• The next step is mixing your meat mixture until the ingredients are just incorporated with your hands.  Full pieces of ground meat should still be visible.\n\n" +
-                        "• Roll your meatballs with lightly oiled hands to prevent the meat from sticking to your fingers, while adding a little extra moisture into each meatball.\n\n" +
-                        "• Heat some oil in a pan for browning the meatballs. We just fry them quickly to get colour on them and to form a golden crust and they finish cooking in the sauce. I used a nonstick skillet for this, but you can use a high sided regular skillet and make the sauce in it too.\n\n" +
-                        "• Once the meatballs are browned all the way around remove them from the pan and set onto a baking tray. You may need to do this in batches to brown all the meatballs. This recipe makes 20 meatballs.\n\n" +
-                        "• To make the sauce, heat some oil in a pan and soften the onion and garlic on medium heat. Add in some thyme and the tomato puree. Give it all a good stir and add in the passata. Add the meatballs to the sauce and simmer for about 10 minutes until the meatballs are cooked through.\n\n"
-            )
-        }
-    val linkText: AnnotatedString
-        get() = buildAnnotatedString {
-            val text = "Italian Meatballs in Tomato Sauce (All ingredients from Aldi) - Savvy Bites"
-            val start = 0
-            val end = text.length
-            append(text)
-            addStyle(
-                style = SpanStyle(
-                    color = GreenA700,
-                    textDecoration = TextDecoration.Underline
-                ), start = start, end = end
-            )
-            addStringAnnotation(
-                "URL",
-                "https://savvybites.co.uk/meatballs-in-tomato-sauce",
-                start,
-                end
-            )
-        }
 }
