@@ -14,7 +14,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.philexliveprojects.meatballsrecipe.R
-import com.philexliveprojects.meatballsrecipe.ui.utilities.MeatballsRecipeStage
 
 val Margin = 12.dp
 
@@ -32,7 +31,7 @@ fun MeatballsRecipe() {
                 HomeScreen { navController.navigate(Screen.First.name) }
             }
             composable(Screen.First.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "1",
                     text = stringResource(R.string.first),
                     onNavigateUp = { navController.navigateUp() },
@@ -40,7 +39,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Second.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "2",
                     text = stringResource(R.string.second),
                     onNavigateUp = { navController.navigateUp() },
@@ -48,7 +47,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Third.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "3",
                     text = stringResource(R.string.third),
                     onNavigateUp = { navController.navigateUp() },
@@ -56,7 +55,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Fourth.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "4",
                     text = stringResource(R.string.fourth),
                     onNavigateUp = { navController.navigateUp() },
@@ -64,7 +63,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Fifth.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "5",
                     text = stringResource(R.string.fifth),
                     onNavigateUp = { navController.navigateUp() },
@@ -72,7 +71,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Sixth.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "6",
                     text = stringResource(R.string.sixth),
                     onNavigateUp = { navController.navigateUp() },
@@ -80,7 +79,7 @@ fun MeatballsRecipe() {
                 )
             }
             composable(Screen.Seventh.name) {
-                MeatballsRecipeStage(
+                MeatballsRecipeStageScreen(
                     title = "7",
                     text = stringResource(R.string.seventh),
                     onNavigateUp = { navController.navigateUp() },
